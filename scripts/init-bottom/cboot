@@ -1,0 +1,54 @@
+#!/bin/sh
+
+PREREQ=""
+prereqs()
+{
+	echo "$PREREQ"
+}
+
+case $1 in
+prereqs)
+	prereqs
+	exit 0
+	;;
+esac
+
+. /scripts/functions
+
+#printf "\033[0;35m\n"
+#echo
+#echo "    ████┐                    ████████████┐  "
+#echo "    ████│                   ██████████████┐ "
+#echo "    ████│                   ████┌─────████│ "
+#echo "    ████│                   ████│     ████│ "
+#echo "    ████│                   ████│ ██┐ ████│ "
+#echo "    ████│  ████████████┐    ████│ ██│ ████│ "
+#echo "    ████│  █████████████┐   ████│ └─┘ ████│ "
+#echo "    ████│  ████┌─────████┐  ████│     ████│ "
+#echo "    ████│  ████│     ████│  ████│     ████│ "
+#echo "    ████│  █████████████┌┘  ██████████████│ "
+#echo "    ████│  ████████████┌┘   └████████████┌┘ "
+#echo "    └───┘  ████┌───────┘     └───────────┘  "
+#echo "           ████│                            "
+#echo "           ████│                            "
+#echo "           ████│                            "
+#echo "           ████│                            "
+#echo "           └───┘                            "
+#echo
+printf "\033[0;36mcBoot Linux Loader..."
+
+if [ ! -e "$rootmnt/vmlinuz" ]; then
+	panic "/vmlinuz image not found!"
+fi
+
+if [ ! -e "$rootmnt/initrd.img" ]; then
+	panic "/initrd.img image not found!"
+fi
+
+if [ ! -e "$rootmnt/cmdline.txt" ]; then
+	panic "/cmdline.txt not found!"
+fi
+
+kexec -l "$rootmnt/vmlinuz" --initrd="$rootmnt/initrd.img" --command-line="$(cat $rootmnt/cmdline.txt)"
+kexec -e
+panic "kexec failed!"

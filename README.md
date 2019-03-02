@@ -12,3 +12,5 @@ initramfs-tools scripts for making a very simple kexec-based bootstrap
 
 ## ...but why?
 devices (such as the nextbook ares 8) that have an android bootloader typically require reflashing the boot partition to update the kernel, initramfs, and cmdline. this is fine if you're running android, but if you want to run something else, it can be cumbersome to have to reflash every time you change something (especially during debugging and development). the intended use of cboot is to be bundled, as a boot image, with an appropriate kernel and cmdline to load the kernel from a different partition on the device.
+
+this is, admittedly, nothing special. i just thought i might save someone the time of getting this to work.
