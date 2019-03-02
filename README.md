@@ -9,6 +9,7 @@ initramfs-tools scripts for making a very simple kexec-based bootstrap
 5. run mkinitramfs -u
 6. /initrd.img should now point to the assembled initramfs
 7. boot the initramfs with the root= cmdline parameter pointing to a device with vmlinuz, initrd.img, and cmdline.txt in the root
+# *WARNING:* not doing this in a chroot will most certainly result in your system being unbootable, because it will rewrite your initramfs in such a way that it will create an infinite loop of kexecing itself. do *NOT* do this outside of a chroot!
 
 ## ...but why?
 devices (such as the nextbook ares 8) that have an android bootloader typically require reflashing the boot partition to update the kernel, initramfs, and cmdline. this is fine if you're running android, but if you want to run something else, it can be cumbersome to have to reflash every time you change something (especially during debugging and development). the intended use of cboot is to be bundled, as a boot image, with an appropriate kernel and cmdline to load the kernel from a different partition on the device.
